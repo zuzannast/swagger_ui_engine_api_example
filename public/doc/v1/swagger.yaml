@@ -1,0 +1,66 @@
+swagger: '2.0'
+info:
+  description: |
+    This is a sample server Petstore server.
+
+    [Learn about Swagger](http://swagger.io) or join the IRC channel `#swagger` on irc.freenode.net.
+
+    For this sample, you can use the api key `special-key` to test the authorization filters
+  version: '1.0.0'
+  title: Swagger Petstore
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: petstore.swagger.io
+basePath: "/v1"
+schemes:
+  - http
+tags:
+  - name: pet
+    description: Everything about your Pets
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+  - name: store
+    description: Access to Petstore orders
+  - name: user
+    description: Operations about user
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    flow: implicit
+    scopes:
+      write:pets: modify pets in your account
+      read:pets: read your pets
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+paths:
+  /pets:
+    get:
+      description: "Returns all pets from the system that the user has access to"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "A list of pets."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Pet"
+      security:
+        - oauth2: ["read:pets"]
+definitions:
+  Pet:
+    $ref: "definitions/pet.yaml"
