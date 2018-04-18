@@ -1,24 +1,71 @@
-# README
+# About
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an example use of [SwaggerUiEngine](https://github.com/ZuzannaSt/swagger_ui_engine) gem inside a Rails API only project.
 
-Things you may want to cover:
+## Versions
 
-* Ruby version
+SwaggerUIEngine | Ruby  | Rails versions   
+----------------| ----- | -----------------
+1.1.1           | 2.4.0 | 5.1.5
 
-* System dependencies
+# Config  
 
-* Configuration
+[Gemfile](https://github.com/ZuzannaSt/swagger_ui_engine_api_example/blob/master/Gemfile#L5)
+```ruby
+gem 'swagger_ui_engine'
+```
 
-* Database creation
+[Initializer](https://github.com/ZuzannaSt/swagger_ui_engine_api_example/blob/master/config/initializers/swagger_ui_engine.rb)
+```ruby
+# config/initializers/swagger_ui_engine.rb
 
-* Database initialization
+SwaggerUiEngine.configure do |config|
+  config.swagger_url = {
+    v1: '/doc/v1/swagger.yaml',
+    v2: '/doc/v2/swagger.yaml'
+  }
 
-* How to run the test suite
+  config.doc_expansion = 'full'
+  config.model_rendering = 'model'
+  config.validator_enabled = true
+  config.admin_username = 'admin'
+  config.admin_password = 'password'
+end
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+[Routes](https://github.com/ZuzannaSt/swagger_ui_engine_api_example/blob/master/config/routes.rb)
+```ruby
+# config/routes.rb
 
-* Deployment instructions
+Rails.application.routes.draw do
+  mount SwaggerUiEngine::Engine, at: '/'
+end
+```
 
-* ...
+[Swagger Petstore minimal YAML documentation](https://github.com/ZuzannaSt/swagger_ui_engine_api_example/blob/master/public/doc/v1/swagger.yaml)
+```ruby
+# public/doc/v1/swagger.yaml
+
+---
+  swagger: "2.0"
+  info:
+    version: "1.0.0"
+    title: "Swagger Petstore"
+  ...
+```
+
+# Result
+
+## Heroku app
+[swagger-ui-engine-example](https://swagger-ui-engine-example.herokuapp.com)
+
+## HTTP Basic Auth
+![SwaggerUiEngine Basic Auth](https://github.com/ZuzannaSt/swagger_ui_engine_example/blob/master/app/assets/images/swagger_ui_engine_example_basic_auth.png)
+
+The username and password for basic auth are: `admin` and `password` - as defined in the example configuration.
+
+## Index page
+![SwaggerUiEngine Index Page](https://github.com/ZuzannaSt/swagger_ui_engine_example/blob/master/app/assets/images/swagger_ui_engine_example_index.png)
+
+## Single version page
+![Swagger Web UI Single version](https://github.com/ZuzannaSt/swagger_ui_engine_example/blob/master/app/assets/images/swagger_ui_engine_example_version.png)
